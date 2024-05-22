@@ -332,8 +332,14 @@ func (n *nodePlannablePartialExpandedResource) dataResourceExecute(ctx EvalConte
 		return &change, diags
 	}
 
-	// TODO NF: Do we need to do something here to handle partial expanded data
-	// sources that are nested in a check block?
+	// Note: We're deliberately not doing anything special for nested-in-a-check
+	// data sources. (*NodeAbstractResourceInstance).planDataSource has some
+	// special handling for these, but it's founded on the assumption that we're
+	// going to be able to actually read the data source. (Specifically: it
+	// blocks propagation of errors on read during plan, and ensures that we get
+	// a planned Read to execute during apply even if the data source would have
+	// been readable earlier.) But we're getting deferred anyway, so none of
+	// that is relevant on this path. 👍🏼
 
 	// Unlike the managed path, we don't call provider.ValidateResourceConfig;
 	// Terraform handles planning for data sources without hands-on input from

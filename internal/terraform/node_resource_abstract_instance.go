@@ -1907,7 +1907,8 @@ func (n *NodeAbstractResourceInstance) planDataSource(ctx EvalContext, checkRule
 				Before: priorVal,
 				After:  newVal,
 			},
-			// TODO NF: Is this reason true enough, or do we need a new one?
+			// The caller is more interested in the deferral reason, but this
+			// action resaon is basically the truth.
 			ActionReason: plans.ResourceInstanceReadBecauseDependencyPending,
 		}
 
